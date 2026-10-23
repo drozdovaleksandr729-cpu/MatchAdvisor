@@ -1,33 +1,31 @@
-name: Build MatchAdvisor APK
+name: Android APK Build
 
 
-'on':
-workflow_dispatch:
-push:
-branches:
-- main
+'on': [push, workflow_dispatch]
 
 
 jobs:
 build:
 runs-on: ubuntu-latest
 steps:
-- uses: actions/checkout@v4
+- name: Checkout
+uses: actions/checkout@v4
 
 
-  - uses: actions/setup-java@v4
+  - name: Install Java
+    uses: actions/setup-java@v4
     with:
       distribution: temurin
       java-version: '17'
 
-  - uses: gradle/actions/setup-gradle@v4
-
   - name: Build APK
     run: gradle assembleDebug
 
-  - uses: actions/upload-artifact@v4
+  - name: Upload APK
+    uses: actions/upload-artifact@v4
     with:
       name: MatchAdvisor-APK
       path: app/build/outputs/apk/debug/app-debug.apk
+
 
 
